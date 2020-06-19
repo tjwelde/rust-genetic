@@ -4,9 +4,9 @@ use self::rand::Rng;
 use crate::individual::Individual;
 use crate::population::Population;
 
-const TOURNAMENT_SIZE: usize = 5;
-const MUTATION_RATE: f32 = 0.5;
-const UNIFORM_RATE: f32 = 0.015;
+const TOURNAMENT_SIZE: usize = 10;
+const UNIFORM_RATE: f32 = 0.5;
+const MUTATION_RATE: f32 = 0.015;
 const ELITISM: bool = true;
 
 pub fn evolve_population(pop: &Population, solution: &Vec<i8>) -> Population {
@@ -42,7 +42,7 @@ fn crossover(indiv1: Individual, indiv2: Individual, solution: &Vec<i8>) -> Indi
   let mut new_sol = Individual::new(solution);
 
   for index in 0..indiv1.size() {
-    if rand::random::<f32>() <= MUTATION_RATE {
+    if rand::random::<f32>() <= UNIFORM_RATE {
       new_sol.set_gene(index, indiv1.genes[index])
     } else {
       new_sol.set_gene(index, indiv2.genes[index])
@@ -54,7 +54,7 @@ fn crossover(indiv1: Individual, indiv2: Individual, solution: &Vec<i8>) -> Indi
 
 fn mutate(indiv: &mut Individual) {
   for i in 0..indiv.size() {
-    if rand::random::<f32>() <= UNIFORM_RATE {
+    if rand::random::<f32>() <= MUTATION_RATE {
       let gene = rand::thread_rng().gen_range(0, 2);
       indiv.set_gene(i, gene);
     }
