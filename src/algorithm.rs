@@ -14,7 +14,7 @@ pub fn evolve_population(pop: &Population, solution: &Vec<i8>) -> Population {
 
   // Keep our best individual
   if ELITISM {
-    new_pop.save_individual(0, pop.get_fittest())
+    new_pop.save_individual(0, pop.get_fittest().clone())
   }
   let elitism_offset = if ELITISM { 1 } else { 0 };
 
@@ -23,7 +23,7 @@ pub fn evolve_population(pop: &Population, solution: &Vec<i8>) -> Population {
   while index < pop.size() {
     let indiv1 = tournament_selection(pop, solution);
     let indiv2 = tournament_selection(pop, solution);
-    let new_indiv = crossover(indiv1, indiv2, solution);
+    let new_indiv = crossover(&indiv1, &indiv2, solution);
     new_pop.save_individual(index, new_indiv);
     index += 1;
   }
@@ -38,7 +38,7 @@ pub fn evolve_population(pop: &Population, solution: &Vec<i8>) -> Population {
   new_pop
 }
 
-fn crossover(indiv1: Individual, indiv2: Individual, solution: &Vec<i8>) -> Individual {
+fn crossover(indiv1: &Individual, indiv2: &Individual, solution: &Vec<i8>) -> Individual {
   let mut new_sol = Individual::new(solution);
 
   for index in 0..indiv1.size() {
@@ -68,6 +68,6 @@ pub fn tournament_selection(pop: &Population, solution: &Vec<i8>) -> Individual 
   for i in 0..=TOURNAMENT_SIZE {
     let random_id: usize = rand::thread_rng().gen_range(0, pop.size());
     tournament.save_individual(i, pop.clone_individual(random_id));
-  };
-  tournament.get_fittest()
+  }
+  tournament.get_fittest().clone()
 }

@@ -34,7 +34,7 @@ impl Population {
     }
   }
 
-  pub fn get_fittest(&self) -> Individual {
+  pub fn get_fittest(&self) -> &Individual {
     let mut fittest = 0;
     let mut index = 0;
 
@@ -44,7 +44,7 @@ impl Population {
       }
       index += 1;
     }
-    self.clone_individual(fittest)
+    &self.individuals[fittest]
   }
 
   pub fn size(&self) -> usize {

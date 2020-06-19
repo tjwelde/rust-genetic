@@ -2,6 +2,7 @@ use self::rand::Rng;
 use crate::fitness_calc;
 use rand;
 
+#[derive(Clone)]
 pub struct Individual {
   pub genes: Vec<i8>,
   pub size: usize,
