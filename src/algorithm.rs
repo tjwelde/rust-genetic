@@ -41,27 +41,23 @@ pub fn evolve_population(pop: &Population, solution: &Vec<i8>) -> Population {
 fn crossover(indiv1: Individual, indiv2: Individual, solution: &Vec<i8>) -> Individual {
   let mut new_sol = Individual::new(solution);
 
-  let mut index = 0;
-  while index < indiv1.size() {
+  for index in 0..indiv1.size() {
     if rand::random::<f32>() <= MUTATION_RATE {
       new_sol.set_gene(index, indiv1.genes[index])
     } else {
       new_sol.set_gene(index, indiv2.genes[index])
     }
-    index += 1;
   }
 
   new_sol
 }
 
 fn mutate(indiv: &mut Individual) {
-  let mut i = 0;
-  while i < indiv.size() {
+  for i in 0..indiv.size() {
     if rand::random::<f32>() <= UNIFORM_RATE {
       let gene = rand::thread_rng().gen_range(0, 2);
       indiv.set_gene(i, gene);
     }
-    i += 1;
   }
 }
 
@@ -69,14 +65,9 @@ pub fn tournament_selection(pop: &Population, solution: &Vec<i8>) -> Individual 
   let mut tournament = Population::new(TOURNAMENT_SIZE, false, solution);
 
   // For each place in tournament get a random individual
-  let mut i = 0;
-  let result = loop {
+  for i in 0..=TOURNAMENT_SIZE {
     let random_id: usize = rand::thread_rng().gen_range(0, pop.size());
     tournament.save_individual(i, pop.clone_individual(random_id));
-    i += 1;
-    if i > TOURNAMENT_SIZE {
-      break tournament;
-    }
   };
-  result.get_fittest()
+  tournament.get_fittest()
 }

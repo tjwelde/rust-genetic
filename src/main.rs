@@ -31,8 +31,7 @@ fn main() {
   // Trying out Algorithm
   let mut my_pop = Population::new(20, true, &solution);
 
-  let mut i = 0;
-  loop {
+  for i in 0..=20 {
     println!(
       "Generation: {:2} Fittest: {} Genes: {:?}",
       i,
@@ -40,9 +39,5 @@ fn main() {
       my_pop.get_fittest().genes
     );
     my_pop = algorithm::evolve_population(&my_pop, &solution);
-    i += 1;
-    if i > 20 {
-      break;
-    };
   }
 }

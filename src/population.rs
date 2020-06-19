@@ -8,14 +8,14 @@ pub struct Population {
 impl Population {
   pub fn new(population_size: usize, initialize: bool, solution: &Vec<i8>) -> Population {
     let mut pop = Population {
-      population_size: population_size,
+      population_size,
       individuals: Vec::with_capacity(population_size),
     };
 
     if initialize {
-      for _i in 0..population_size {
+      for i in 0..population_size {
         let new_indiv = Individual::new(solution);
-        pop.save_individual(_i, new_indiv);
+        pop.save_individual(i, new_indiv);
       }
     }
     pop
