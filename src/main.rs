@@ -39,7 +39,7 @@ fn main() {
       my_pop.get_fittest().get_fitness(),
       my_pop.get_fittest().genes
     );
-    my_pop = algorithm::evolve_population(&my_pop, false, &solution);
+    my_pop = algorithm::evolve_population(&my_pop, &solution);
     i += 1;
     if i > 20 {
       break;
