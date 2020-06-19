@@ -1,24 +1,27 @@
-extern crate rand;
-
 use self::rand::Rng;
-
-use fitness_calc;
+use crate::fitness_calc;
+use rand;
 
 pub struct Individual {
   pub genes: Vec<i8>,
   pub size: usize,
+  pub solution: Vec<i8>,
 }
 
 impl Individual {
-  pub fn new() -> Individual {
+  pub fn new(solution: &Vec<i8>) -> Individual {
     let mut genes = Vec::new();
-    let size = 15;
+    let size = solution.len();
 
     for _i in 0..size {
       genes.push(rand::thread_rng().gen_range(0, 2));
     }
 
-    Individual { genes, size }
+    Individual {
+      genes,
+      size,
+      solution: solution.clone(),
+    }
   }
 
   pub fn set_gene(&mut self, index: usize, value: i8) {
@@ -30,14 +33,6 @@ impl Individual {
   }
 
   pub fn get_fitness(&self) -> usize {
-    fitness_calc::get_fitness(self)
-  }
-
-  pub fn to_string(&self) -> String {
-    let mut gene_string = String::from("");
-    for _i in &self.genes {
-      gene_string.push_str(&_i.to_string())
-    }
-    gene_string
+    fitness_calc::get_fitness(self, &self.solution)
   }
 }
