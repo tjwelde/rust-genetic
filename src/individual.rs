@@ -2,6 +2,8 @@ extern crate rand;
 
 use self::rand::Rng;
 
+use fitness_calc;
+
 pub struct Individual {
   pub genes: Vec<i8>,
   pub size: usize,
@@ -10,7 +12,7 @@ pub struct Individual {
 impl Individual {
   pub fn new() -> Individual {
     let mut genes = Vec::new();
-    let size = 5;
+    let size = 15;
 
     for _i in 0..size {
       genes.push(rand::thread_rng().gen_range(0, 2));
@@ -25,6 +27,10 @@ impl Individual {
 
   pub fn size(&self) -> usize {
     self.size
+  }
+
+  pub fn get_fitness(&self) -> usize {
+    fitness_calc::get_fitness(self)
   }
 
   pub fn to_string(&self) -> String {

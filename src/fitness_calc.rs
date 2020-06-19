@@ -16,6 +16,6 @@ pub fn get_fitness(indiv: &Individual) -> usize {
   }
   fitness
 }
-fn get_max_fitness() -> usize {
+pub fn get_max_fitness() -> usize {
   SOLUTION.len()
 }
