@@ -30,15 +30,15 @@ fn main() {
   println!("Max fitness: {}", fitness_calc::get_max_fitness(&solution));
 
   // Trying out Algorithm
-  let mut my_pop = Population::new(20, true, &solution);
+  let mut my_pop = Population::new(50, true, &solution);
 
   let mut i = 0;
   while i < 400 {
-    // println!(
-    //   "Generation: {:2} Fittest: {}",
-    //   i,
-    //   my_pop.get_fittest().get_fitness()
-    // );
+    println!(
+      "Generation: {:2} Fittest: {}",
+      i,
+      my_pop.get_fittest().get_fitness()
+    );
     my_pop = algorithm::evolve_population(&my_pop, &solution);
     if my_pop.get_fittest().get_fitness() == fitness_calc::get_max_fitness(&solution) {
       break;

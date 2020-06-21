@@ -1,6 +1,5 @@
-use self::rand::Rng;
+use rand::Rng;
 use crate::fitness_calc;
-use rand;
 
 #[derive(Clone)]
 pub struct Individual {
@@ -14,8 +13,10 @@ impl Individual {
     let mut genes = Vec::new();
     let size = solution.len();
 
+    let mut rng = rand::thread_rng(); 
+
     for _i in 0..size {
-      genes.push(rand::thread_rng().gen_range(0, 2));
+      genes.push((rng.gen::<u16>() % 2) as i8);
     }
 
     Individual {

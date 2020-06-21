@@ -1,10 +1,9 @@
-use rand;
-
-use self::rand::Rng;
+use rand::Rng;
+use rand::distributions::{Distribution, Uniform};
 use crate::individual::Individual;
 use crate::population::Population;
 
-const TOURNAMENT_SIZE: usize = 10;
+const TOURNAMENT_SIZE: usize = 5;
 const UNIFORM_RATE: f32 = 0.5;
 const MUTATION_RATE: f32 = 0.015;
 const ELITISM: bool = true;
@@ -53,9 +52,10 @@ fn crossover(indiv1: &Individual, indiv2: &Individual, solution: &Vec<i8>) -> In
 }
 
 fn mutate(indiv: &mut Individual) {
+  let mut generator = rand::thread_rng();
   for i in 0..indiv.size() {
     if rand::random::<f32>() <= MUTATION_RATE {
-      let gene = rand::thread_rng().gen_range(0, 2);
+      let gene = (generator.gen::<u16>() % 2) as i8;
       indiv.set_gene(i, gene);
     }
   }
@@ -64,9 +64,12 @@ fn mutate(indiv: &mut Individual) {
 pub fn tournament_selection(pop: &Population, solution: &Vec<i8>) -> Individual {
   let mut tournament = Population::new(TOURNAMENT_SIZE, false, solution);
 
+  let mut rng = rand::thread_rng();
+  let between = Uniform::from(0..pop.size());
+
   // For each place in tournament get a random individual
-  for i in 0..=TOURNAMENT_SIZE {
-    let random_id: usize = rand::thread_rng().gen_range(0, pop.size());
+  for i in 0..TOURNAMENT_SIZE { 
+    let random_id: usize = between.sample(&mut rng);
     tournament.save_individual(i, pop.clone_individual(random_id));
   }
   tournament.get_fittest().clone()
