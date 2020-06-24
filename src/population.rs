@@ -38,8 +38,8 @@ impl Population {
     let mut fittest = 0;
     let mut index = 0;
 
-    for indiv in &self.individuals {
-      if self.individuals[fittest].get_fitness() <= indiv.get_fitness() {
+    while index < self.size() {
+      if self.individuals[fittest].get_fitness() <= self.individuals[index].get_fitness() {
         fittest = index;
       }
       index += 1;
