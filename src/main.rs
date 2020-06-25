@@ -6,7 +6,10 @@ mod population;
 // // use individual::Individual;
 use population::Population;
 
-// static SOLUTION: [i8; 15] = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0];
+static SOLUTION: [i8; 60] = [
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1,
+  0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+];
 
 fn main() {
   // Trying out setters and getters
@@ -22,33 +25,27 @@ fn main() {
   // println!("{}", indiv.to_string());
   // println!("fitness: {}", fitness);
 
-  let solution: Vec<i8> = vec![
-    0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1,
-    0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-  ];
-
-  println!("Max fitness: {}", fitness_calc::get_max_fitness(&solution));
+  println!("Max fitness: {}", fitness_calc::get_max_fitness(&SOLUTION));
 
   // Trying out Algorithm
-  let mut my_pop = Population::new(50, true, &solution);
+  let mut my_pop = Population::new(50, true, &SOLUTION);
 
-  let mut i = 0;
-  while i < 400 {
+  let mut last = 0;
+  for i in 0..400 {
+    last = i;
     println!(
       "Generation: {:2} Fittest: {}",
       i,
       my_pop.get_fittest().get_fitness()
     );
-    my_pop = algorithm::evolve_population(&my_pop, &solution);
-    if my_pop.get_fittest().get_fitness() == fitness_calc::get_max_fitness(&solution) {
+    my_pop = algorithm::evolve_population(&my_pop, &SOLUTION);
+    if my_pop.get_fittest().get_fitness() == fitness_calc::get_max_fitness(&SOLUTION) {
       break;
     }
-    i += 1;
   }
-
   println!(
     "Generation: {:2} Fittest: {}",
-    i,
+    last,
     my_pop.get_fittest().get_fitness()
   );
 }

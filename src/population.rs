@@ -6,7 +6,7 @@ pub struct Population {
 }
 
 impl Population {
-  pub fn new(population_size: usize, initialize: bool, solution: &Vec<i8>) -> Population {
+  pub fn new(population_size: usize, initialize: bool, solution: &'static [i8]) -> Population {
     let mut pop = Population {
       population_size,
       individuals: Vec::with_capacity(population_size),
@@ -26,25 +26,14 @@ impl Population {
   }
 
   pub fn clone_individual(&self, index: usize) -> Individual {
-    let individual = &self.individuals[index];
-    Individual {
-      genes: individual.genes.clone(),
-      size: individual.size,
-      solution: individual.solution.clone(),
-    }
+    self.individuals[index].clone()
   }
 
   pub fn get_fittest(&self) -> &Individual {
-    let mut fittest = 0;
-    let mut index = 0;
-
-    while index < self.size() {
-      if self.individuals[fittest].get_fitness() <= self.individuals[index].get_fitness() {
-        fittest = index;
-      }
-      index += 1;
-    }
-    &self.individuals[fittest]
+    // It's assumed that individuals is not empty. therefore unwrap
+    self.individuals.iter().max_by(|a, b| {
+      a.get_fitness().cmp(&b.get_fitness())
+    }).unwrap()
   }
 
   pub fn size(&self) -> usize {
