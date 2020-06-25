@@ -30,7 +30,9 @@ fn main() {
   // Trying out Algorithm
   let mut my_pop = Population::new(50, true, &SOLUTION);
 
+  let mut last = 0;
   for i in 0..400 {
+    last = i;
     println!(
       "Generation: {:2} Fittest: {}",
       i,
@@ -41,4 +43,9 @@ fn main() {
       break;
     }
   }
+  println!(
+    "Generation: {:2} Fittest: {}",
+    last,
+    my_pop.get_fittest().get_fitness()
+  );
 }
